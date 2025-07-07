@@ -9,3 +9,5 @@ def get_base_learner(model_type='logistic'):
         return RandomForestClassifier()
     else:
         raise ValueError("Unsupported model type")
+
+# This function returns a base learner model based on the specified type.
