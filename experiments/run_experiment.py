@@ -19,3 +19,5 @@ if __name__ == "__main__":
     parser.add_argument("--dataset", type=str, default="data/sample_data.csv", help="Path to dataset")
     args = parser.parse_args()
     main(args)
+
+# This script runs a meta-learner on a specified dataset to estimate treatment effects.
