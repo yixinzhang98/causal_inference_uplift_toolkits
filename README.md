@@ -1,3 +1,6 @@
+Author: Yixin Zhang
+
+
 # Causal Meta-Learner for Personalized Messaging
 
 This repository implements a meta-learner architecture that integrates causal inference techniques to determine the most effective message for individual users.
