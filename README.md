@@ -34,6 +34,3 @@ pip install -r requirements.txt
 python experiments/run_experiment.py --learner x_learner --dataset data/sample_data.csv
 ```
 
-## 📄 License
-
-MIT License
