@@ -1,4 +1,11 @@
+<<<<<<< HEAD
 # Predictive‑Causal Uplift Model for Patient Medication Reminders
+=======
+Author: Yixin Zhang
+
+
+# Causal Meta-Learner for Personalized Messaging
+>>>>>>> 0606893e02613e38472276a7eef22347b8ffe9a0
 
 > Production‑ready starter repo for modeling **incremental impact** (uplift) of reminder interventions on medication adherence.
 > Includes synthetic healthcare data generator, uplift learners (T‑Learner, Causal Forest—optional), policy targeting,
@@ -47,6 +54,7 @@ This will print metrics (Qini, AUUC, uplift@K, policy value) and save artifacts 
 └── docs/MODEL_CARD.md
 ```
 
+<<<<<<< HEAD
 ## Minimal example (API)
 ```python
 from pc_uplift.data.simulate import simulate_cohort
@@ -66,3 +74,5 @@ print("Qini AUC:", qini_auc(y, t, upl))
 print("Policy value (20% budget):", policy_value(y, t, upl, benefit=500, cost=15, budget=0.2))
 ```
 
+=======
+>>>>>>> 0606893e02613e38472276a7eef22347b8ffe9a0
