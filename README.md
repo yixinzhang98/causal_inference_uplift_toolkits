@@ -1,6 +1,6 @@
 
 # Predictive‑Causal Uplift Model for Patient Medication Reminders
-=======
+
 Author: Yixin Zhang
 
 
