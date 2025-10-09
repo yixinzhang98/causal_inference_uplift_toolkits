@@ -1,23 +1,49 @@
 import argparse
+import os
+import numpy as np
 import pandas as pd
-from utils.preprocess import preprocess_data
-from models.meta_learner import get_meta_learner
+from pc_uplift.data.simulate import simulate_cohort
+from pc_uplift.models.uplift import TLearnerUplift, CausalForestUplift
+from pc_uplift.metrics.policy import qini_auc, auuc, uplift_at_k, policy_value
 
-def main(args):
-    df = pd.read_csv(args.dataset)
-    X, treatment, y = preprocess_data(df)
+def main():
+    ap = argparse.ArgumentParser()
+    ap.add_argument("--n", type=int, default=10000, help="Cohort size")
+    ap.add_argument("--seed", type=int, default=42)
+    ap.add_argument("--model", type=str, default="t", choices=["t", "cf"])
+    ap.add_argument("--budget", type=float, default=0.2, help="Targeting fraction 0-1")
+    ap.add_argument("--benefit", type=float, default=500.0, help="Benefit per adherence")
+    ap.add_argument("--cost", type=float, default=15.0, help="Cost per outreach")
+    args = ap.parse_args()
 
-    learner = get_meta_learner(method=args.learner)
-    learner.fit(X=X.values, treatment=treatment.values, y=y.values)
+    df = simulate_cohort(n=args.n, seed=args.seed)
+    X = pd.get_dummies(df.drop(columns=["y", "t"]), drop_first=True)
+    t = df["t"].values
+    y = df["y"].values
 
-    te = learner.predict(X=X.values)
-    print(f"Average Estimated Treatment Effect: {te.mean()}")
+    if args.model == "cf":
+        model = CausalForestUplift(random_state=args.seed)
+    else:
+        model = TLearnerUplift(random_state=args.seed)
+
+    model.fit(X, t, y)
+    upl = model.predict_uplift(X)
+
+    qini = qini_auc(y, t, upl)
+    a = auuc(y, t, upl)
+    u20 = uplift_at_k(y, t, upl, k=0.2)
+    pv = policy_value(y, t, upl, benefit=args.benefit, cost=args.cost, budget=args.budget)
+
+    os.makedirs("artifacts", exist_ok=True)
+    np.save("artifacts/uplift.npy", upl)
+    df_out = pd.DataFrame({"uplift": upl}).join(df)
+    df_out.to_csv("artifacts/preds.csv", index=False)
+
+    print(f"Qini AUC: {qini:.6f}")
+    print(f"AUUC: {a:.6f}")
+    print(f"Uplift@20%: {u20:.6f}")
+    print(f"Policy value (budget={args.budget:.0%}): ${pv:,.2f}")
+    print("Artifacts written to ./artifacts")
 
 if __name__ == "__main__":
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--learner", type=str, default="x_learner", help="Meta learner type")
-    parser.add_argument("--dataset", type=str, default="data/sample_data.csv", help="Path to dataset")
-    args = parser.parse_args()
-    main(args)
-
-# This script runs a meta-learner on a specified dataset to estimate treatment effects.
+    main()
