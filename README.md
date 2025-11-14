@@ -11,7 +11,7 @@ Author: Yixin Zhang
 > evaluation via Qini/AUUC, basic fairness checks, and a reproducible quickstart script.
 
 ## Example of Application
-<img width="279" height="184" alt="image" src="https://github.com/user-attachments/assets/22f8ec08-0b73-4d49-a3a3-5be8778a7969" />
+<img width="1116" height="736" alt="image" src="https://github.com/user-attachments/assets/22f8ec08-0b73-4d49-a3a3-5be8778a7969" />
 
 
 
