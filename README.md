@@ -11,8 +11,7 @@ Author: Yixin Zhang
 > evaluation via Qini/AUUC, basic fairness checks, and a reproducible quickstart script.
 
 ## Example of Application
-<img width="1116" height="736" alt="image" src="https://github.com/user-attachments/assets/22f8ec08-0b73-4d49-a3a3-5be8778a7969" />
-
+<img width="1590" height="994" alt="image" src="https://github.com/user-attachments/assets/61054f93-801f-41f5-8029-22a50ee61b67" />
 
 
 ## Why uplift (predictive‑causal) modeling?
